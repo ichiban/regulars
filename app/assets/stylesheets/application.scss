@@ -1,0 +1,59 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require dialog-polyfill
+ *= require_self
+ */
+
+/* custom variables */
+@import "variables";
+
+/* Material Design Lite */
+
+// Variables and mixins
+@import "material-design-lite/src/variables";
+@import "material-design-lite/src/mixins";
+
+// Resets and dependencies
+@import "material-design-lite/src/resets/resets";
+@import "material-design-lite/src/typography/typography";
+
+// Components
+@import "material-design-lite/src/palette/palette";
+@import "material-design-lite/src/ripple/ripple";
+@import "material-design-lite/src/animation/animation";
+@import "material-design-lite/src/badge/badge";
+@import "material-design-lite/src/button/button";
+@import "material-design-lite/src/card/card";
+@import "material-design-lite/src/checkbox/checkbox";
+@import "material-design-lite/src/data-table/data-table";
+@import "material-design-lite/src/dialog/dialog";
+@import "material-design-lite/src/footer/mega_footer";
+@import "material-design-lite/src/footer/mini_footer";
+@import "material-design-lite/src/icon-toggle/icon-toggle";
+@import "material-design-lite/src/list/list";
+@import "material-design-lite/src/menu/menu";
+@import "material-design-lite/src/progress/progress";
+@import "material-design-lite/src/layout/layout";
+@import "material-design-lite/src/radio/radio";
+@import "material-design-lite/src/slider/slider";
+@import "material-design-lite/src/snackbar/snackbar";
+@import "material-design-lite/src/spinner/spinner";
+@import "material-design-lite/src/switch/switch";
+@import "material-design-lite/src/tabs/tabs";
+@import "material-design-lite/src/textfield/textfield";
+@import "material-design-lite/src/tooltip/tooltip";
+@import "material-design-lite/src/shadow/shadow";
+@import "material-design-lite/src/grid/grid";
+
+/* custom components */
+@import "components/floating-action-button";

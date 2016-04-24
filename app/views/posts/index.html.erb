@@ -1,0 +1,11 @@
+<div class="<%= dom_class(Post) %> mdl-grid">
+  <%= render partial: 'card', collection: @posts %>
+</div>
+
+<% content_for :floating_action_button do %>
+        <%= link_to new_post_path,
+                    data: { remote: true },
+                    class: 'regulars-floating-action-button mdl-js-button mdl-js-ripple-effect' do %>
+            <i class="material-icons">add</i>
+        <% end %>
+<% end %>

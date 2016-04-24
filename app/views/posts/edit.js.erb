@@ -1,0 +1,6 @@
+(function() {
+  'use strict';
+
+  $('dialog').replaceWith('<%=j render partial: 'dialog', object: @post %>');
+  $('dialog').get()[0].showModal();
+})();

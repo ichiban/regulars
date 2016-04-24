@@ -1,0 +1,20 @@
+<dialog class="mdl-dialog">
+  <%= form_for dialog, data: { remote: true } do |f| %>
+      <div class="mdl-dialog__content">
+        <% error = dialog.errors.full_messages_for(:message).first %>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width mdl-textfield--floating-label <%= 'is-invalid' if error %>">
+          <%= f.text_area :message, class: 'mdl-textfield__input', rows: 4 %>
+          <%= f.label :message, class: 'mdl-textfield__label' %>
+          <% error.tap do |msg| %>
+              <span class="mdl-textfield__error"><%= msg %></span>
+          <% end %>
+        </div>
+      </div>
+      <div class="mdl-dialog__actions">
+        <%= f.button class: 'mdl-button mdl-js-button mdl-js-ripple-effect', data: { dialog_close: true } do %>
+            Save
+        <% end %>
+        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-dialog-close>Cancel</button>
+      </div>
+  <% end %>
+</dialog>

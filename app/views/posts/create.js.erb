@@ -1,0 +1,5 @@
+(function() {
+  'use strict';
+
+  $('.<%=j dom_class(Post) %>').prepend('<%=j render partial: 'card', object: @post %>');
+})();

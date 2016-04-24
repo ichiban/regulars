@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Regulars</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+  </head>
+  <body>
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header mdl-layout__header--waterfall mdl-shadow--2dp">
+      <div class="mdl-layout__header-row">
+        <span class="mdl-layout__title">
+          <span class="mdl-layout__title">Regulars</span>
+        </span>
+      </div>
+      <%= content_for :tabs %>
+    </header>
+    <main class="mdl-layout__content">
+      <%= yield %>
+    </main>
+  </div>
+  <%= content_for :floating_action_button %>
+  <dialog></dialog>
+  </body>
+  <%= javascript_include_tag 'application' %>
+</html>

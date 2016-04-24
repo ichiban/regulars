@@ -1,0 +1,5 @@
+(function() {
+  'use strict';
+
+  $('#<%=j dom_id(@post) %>').replaceWith('<%=j render partial: 'card', object: @post %>');
+})();

@@ -1,0 +1,10 @@
+(function() {
+  'use strict';
+
+  $('dialog').replaceWith('<%=j render partial: 'dialog', object: @post %>');
+
+  // when validations on create failed, it won't upgrade the dialog.
+  componentHandler.upgradeDom();
+
+  $('dialog').get()[0].showModal();
+})();
