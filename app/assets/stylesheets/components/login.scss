@@ -1,0 +1,31 @@
+@import "material-design-lite/src/color-definitions";
+@import "../mixins/centerer";
+
+.login {
+  &__contents {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+
+  &__title {
+
+  }
+
+  &__description {
+    flex-grow: 1;
+  }
+
+  &__actions {
+    position: relative;
+  }
+
+  &__action {
+    @include centerer(true, false);
+    padding-left: auto;
+    color: unquote("rgb(#{$color-white})");
+    background-color: #3b5998;
+    width: 250px;
+  }
+}

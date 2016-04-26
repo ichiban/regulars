@@ -4,5 +4,8 @@ Rails.application.routes.draw do
   # Serve websocket cable requests in-process
   # mount ActionCable.server => '/cable'
 
-  resources :posts
+  resources :users
+  resources :pages, shallow: true do
+    resources :posts
+  end
 end

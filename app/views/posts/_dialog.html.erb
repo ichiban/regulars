@@ -1,5 +1,6 @@
 <dialog class="mdl-dialog">
-  <%= form_for dialog, data: { remote: true } do |f| %>
+  <%= form_for [dialog.page, dialog], data: { remote: true } do |f| %>
+      <%= f.hidden_field :state, value: :original %>
       <div class="mdl-dialog__content">
         <% error = dialog.errors.full_messages_for(:message).first %>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width mdl-textfield--floating-label <%= 'is-invalid' if error %>">
@@ -9,12 +10,21 @@
               <span class="mdl-textfield__error"><%= msg %></span>
           <% end %>
         </div>
+
+        <% Post::PRESETS.each_pair do |k, v| %>
+            <div>
+            <%= f.label :preset, class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect', for: "#{Post.name.underscore}_#{:preset}_#{k}" do %>
+                <%= f.radio_button :preset, k, class: 'mdl-radio__button' %>
+                <span class="mdl-radio__label"><%= v %></span>
+            <% end %>
+            </div>
+        <% end %>
       </div>
       <div class="mdl-dialog__actions">
         <%= f.button class: 'mdl-button mdl-js-button mdl-js-ripple-effect', data: { dialog_close: true } do %>
-            Save
+            Post
         <% end %>
-        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-dialog-close>Cancel</button>
+        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect" data-dialog-close>Discard</button>
       </div>
   <% end %>
 </dialog>

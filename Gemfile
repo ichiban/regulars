@@ -52,6 +52,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-dialog-polyfill'
 end
 
-gem 'dotenv'
+gem 'dotenv-rails', groups: [:development, :test]
+gem 'koala'
 gem 'paperclip', '~> 5.0.0.beta1'
 gem 'state_machines'

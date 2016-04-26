@@ -1,13 +1,9 @@
 <div id="<%= dom_id(card) %>" class="mdl-cell mdl-card mdl-shadow--2dp">
   <div class="mdl-card__title">
+    <h4 class="mdl-card__title-text">0 customers saw</h4>
   </div>
   <div class="mdl-card__supporting-text">
     <%=simple_format card.message %>
-  </div>
-  <div class="mdl-card__actions mdl-card--border">
-    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-      Publish
-    </a>
   </div>
   <div class="mdl-card__menu">
     <button id="<%=j dom_id(card, :menu) %>" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">

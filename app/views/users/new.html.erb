@@ -1,0 +1,19 @@
+<div class="mdl-grid--no-spacing">
+  <div class="mdl-cell mdl-cell--12-col login">
+    <div class="login__contents">
+      <h1 class="login__title">Regulars</h1>
+      <span class="login__subtitle"> for Hair Salons</span>
+      <p class="login__description">
+        A Customer Retention App for Hair Salons.
+      </p>
+      <div class="login__actions">
+        <button class="mdl-button mdl-js-button mdl-js-ripple-effect login__action" data-facebook-login>Continue with Facebook</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= form_for User.new, data: { remote: true } do |f| %>
+    <%= f.hidden_field :facebook_id %>
+    <%= f.hidden_field :access_token %>
+<% end %>

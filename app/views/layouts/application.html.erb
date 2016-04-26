@@ -7,23 +7,37 @@
     <%= action_cable_meta_tag %>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
   </head>
   <body>
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
     <header class="mdl-layout__header mdl-layout__header--waterfall mdl-shadow--2dp">
       <div class="mdl-layout__header-row">
         <span class="mdl-layout__title">
-          <span class="mdl-layout__title">Regulars</span>
+          <span class="mdl-layout__title"><%= content_for :title %></span>
         </span>
       </div>
       <%= content_for :tabs %>
     </header>
+    <div class="mdl-layout__drawer">
+      <span class="mdl-layout-title">Regulars</span>
+      <nav class="mdl-navigation">
+        <% current_user.pages.each do |page| %>
+        <%= link_to page.name, page_posts_path(page), class: 'mdl-navigation__link' %>
+        <% end %>
+        <hr />
+        <%= link_to 'Logout', user_path(current_user), class: 'mdl-navigation__link', data: { remote: true, method: :delete } %>
+      </nav>
+    </div>
     <main class="mdl-layout__content">
       <%= yield %>
     </main>
   </div>
   <%= content_for :floating_action_button %>
   <dialog></dialog>
+  <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button type="button" class="mdl-snackbar__action"></button>
+  </div>
   </body>
-  <%= javascript_include_tag 'application' %>
 </html>

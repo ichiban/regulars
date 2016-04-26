@@ -1,12 +1,15 @@
 class PostsController < ApplicationController
-  before_action :set_posts, only: [:index]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
+  helper_method :page
+
   def index
+    @posts = page.posts.order(created_at: :desc)
   end
 
   def new
-    @post = Post.new
+    @post = page.posts.new
+    @post.preset = :short
   end
 
   def show
@@ -16,9 +19,10 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = page.posts.new(post_params)
     if @post.save
     else
+      logger.info @post.errors.full_messages
       render :new
     end
   end
@@ -35,8 +39,8 @@ class PostsController < ApplicationController
 
   private
 
-  def set_posts
-    @posts = Post.order(id: :desc)
+  def page
+    @page ||= Page.find(params[:page_id]) if params[:page_id]
   end
 
   def set_post
@@ -44,6 +48,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:message)
+    params.require(:post).permit(:state, :message, :preset)
   end
 end
