@@ -4,8 +4,10 @@ class PostsController < ApplicationController
   helper_method :page
 
   def index
-    page.pull!
-    page.posts.save
+    # TODO: implement WebHooks so that we don't need to pull here
+    page.pull
+    page.save
+
     @posts = page.posts.order(created_at: :desc)
   end
 
@@ -22,16 +24,16 @@ class PostsController < ApplicationController
 
   def create
     @post = page.posts.new(post_params)
-    @post.state = :original.to_s
     if @post.save
+      @post.push
     else
       render :new
     end
   end
 
   def update
-    @post.state = :original.to_s
     if @post.update(post_params)
+      @post.push
     else
       render :edit
     end

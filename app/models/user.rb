@@ -3,14 +3,14 @@ class User < ApplicationRecord
   has_many :pages, through: :page_managements
 
   before_save :extend_access_token
-  before_create :pull!
 
-  def pull!
+  def pull
     self.name = me['name']
     self.pages = accounts.map do |account|
       page = Page.where(facebook_id: account['id']).first_or_initialize
       page.name = account['name']
       page.access_token = account['access_token']
+      page.pull
       page
     end
   end

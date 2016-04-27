@@ -12,46 +12,28 @@ class Post < ApplicationRecord
   belongs_to :page
 
   validates :message, presence: true, length: { maximum: 63206 }
-  validates :state, presence: true
 
-  before_validation :sync
-
-  # Since we'll have 2 copies of a same post on our end and FB,
-  # we'll use states to handle which one is the newer.
-  state_machine :state, initial: :duplicate do
-    before_transition :original => :duplicate, do: :push!
-    before_transition :duplicate => :duplicate, do: :pull!
-
-    event :sync do
-      transition [:original, :duplicate] => :duplicate
-    end
-
-    # When it's original, our copy is the newer.
-    # It's because we've just created a new post or updated an existing one.
-    state :original do
-
-    end
-
-    # When it's duplicate, the one on FB is the newer.
-    state :duplicate do
-      validates :facebook_id, presence: true, uniqueness: true
-    end
+  def pull
+    logger.debug 'Post#pull'
   end
 
-  def pull!
-    logger.debug "post pull!"
-  end
-
-  def push!
+  def push
+    logger.debug 'Post#push'
     if facebook_id
-      graph.graph_call facebook_id, { message: message }, 'POST'
+      graph.graph_call facebook_id, to_fb_hash, 'POST'
     else
-      result = graph.put_wall_post message
+      result = graph.graph_call "#{facebook_id}/feed", to_fb_hash, 'POST'
       self.facebook_id = result['id']
     end
   end
 
   private
+
+  def to_fb_hash
+    {
+        message: message
+    }
+  end
 
   def insights
 

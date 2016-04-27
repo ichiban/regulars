@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   def create
     @user = User.where(facebook_id: user_params[:facebook_id]).first_or_initialize
     @user.access_token = user_params[:access_token]
+    @user.pull
     if @user.save
       self.current_user = @user
     else
