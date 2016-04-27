@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # mount ActionCable.server => '/cable'
 
   resources :users
-  resources :pages, shallow: true do
+  resources :pages do
     resources :posts
   end
 end

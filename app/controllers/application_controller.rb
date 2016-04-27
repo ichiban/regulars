@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   rescue_from Koala::Facebook::AuthenticationError, with: :logout
+  rescue_from Koala::Facebook::ClientError, with: :snackbar
 
   def authenticate!
     redirect_to new_user_path unless current_user
@@ -37,6 +38,22 @@ class ApplicationController < ActionController::Base
             'use strict';
 
             Turbolinks.visit('#{new_user_path}');
+          })();
+        JS
+      end
+    end
+  end
+
+  # @param exception [Koala::Facebook::ClientError]
+  def snackbar(exception)
+    respond_to do |format|
+      format.js do
+        render inline:(<<~JS)
+          (function() {
+            'use strict';
+
+            var notification = document.querySelector('.mdl-js-snackbar');
+            notification.MaterialSnackbar.showSnackbar({message: '#{exception.fb_error_message}'});
           })();
         JS
       end

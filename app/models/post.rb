@@ -11,15 +11,10 @@ class Post < ApplicationRecord
 
   belongs_to :page
 
-  validates :facebook_id, uniqueness: true
   validates :message, presence: true, length: { maximum: 63206 }
   validates :state, presence: true
 
-  after_initialize do
-    self.state ||= :duplicate
-  end
-
-  before_save :sync
+  before_validation :sync
 
   # Since we'll have 2 copies of a same post on our end and FB,
   # we'll use states to handle which one is the newer.
@@ -39,17 +34,21 @@ class Post < ApplicationRecord
 
     # When it's duplicate, the one on FB is the newer.
     state :duplicate do
-      validates :facebook_id, presence: true
+      validates :facebook_id, presence: true, uniqueness: true
     end
   end
 
   def pull!
     logger.debug "post pull!"
-
   end
 
   def push!
-    logger.debug "post push!"
+    if facebook_id
+      graph.graph_call facebook_id, { message: message }, 'POST'
+    else
+      result = graph.put_wall_post message
+      self.facebook_id = result['id']
+    end
   end
 
   private
@@ -58,6 +57,7 @@ class Post < ApplicationRecord
 
   end
 
+  # @return [Koala::Facebook::API]
   def graph
     page.graph if page
   end

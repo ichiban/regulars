@@ -56,3 +56,4 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'koala'
 gem 'paperclip', '~> 5.0.0.beta1'
 gem 'state_machines'
+gem 'state_machines-activerecord'

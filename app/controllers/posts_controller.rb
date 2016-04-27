@@ -4,6 +4,8 @@ class PostsController < ApplicationController
   helper_method :page
 
   def index
+    page.pull!
+    page.posts.save
     @posts = page.posts.order(created_at: :desc)
   end
 
@@ -20,16 +22,18 @@ class PostsController < ApplicationController
 
   def create
     @post = page.posts.new(post_params)
+    @post.state = :original.to_s
     if @post.save
     else
-      logger.info @post.errors.full_messages
       render :new
     end
   end
 
   def update
+    @post.state = :original.to_s
     if @post.update(post_params)
     else
+      render :edit
     end
   end
 
@@ -48,6 +52,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:state, :message, :preset)
+    params.require(:post).permit(:message, :preset)
   end
 end

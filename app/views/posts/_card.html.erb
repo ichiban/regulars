@@ -11,10 +11,10 @@
     </button>
     <ul for="<%=j dom_id(card, :menu) %>" class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect">
       <li>
-        <%= link_to 'Edit', edit_post_path(card), class: 'mdl-menu__item', data: { remote: true } %>
+        <%= link_to 'Edit', edit_page_post_path(card.page, card), class: 'mdl-menu__item', data: { remote: true } %>
       </li>
       <li>
-        <%= link_to 'Discard', post_path(card), class: 'mdl-menu__item', data: { remote: true, method: :delete } %>
+        <%= link_to 'Delete', page_post_path(card.page, card), class: 'mdl-menu__item', data: { remote: true, method: :delete } %>
       </li>
     </ul>
   </div>
