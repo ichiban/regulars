@@ -1,11 +1,4 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  state: MyString
-  facebook_id: MyString
-  message: MyText
-
-two:
-  state: MyString
-  facebook_id: MyString
-  message: MyText
+proposal_for_yutaka:
+  message: Wanna get more perms? We recommend to come back in 2 months to keep your hair fluffy.

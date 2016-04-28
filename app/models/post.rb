@@ -1,20 +1,53 @@
 class Post < ApplicationRecord
+  scope :unpublished, -> { where(published: false, scheduled_publish_time: nil) }
+  scope :scheduled, -> { where(published: false).where.not(scheduled_publish_time: nil) }
+  scope :published, -> { where(published: true) }
+
+  class << self
+    def fields
+      @fields ||= %w(message is_published scheduled_publish_time).join(',')
+    end
+  end
+
   PRESETS = {
-      follow_up: 'Follow-up',
-      short: 'Proposal: Short',
-      middle: 'Proposal: Middle',
-      long: 'Proposal: Long',
-      stock: 'Stock for ads',
+      short: { label: 'Proposal: Short', published: false, offset: 1.month },
+      middle: { label: 'Proposal: Middle', published: false, offset: 2.months },
+      long: { label: 'Proposal: Long', published: false, offset: 3.months },
+      follow_up: { label: 'Follow-up', published: true },
+      stock: { label: 'Stock for ads', published: false },
   }
 
-  attr :preset, true
+  def preset
+    super&.to_sym
+  end
+
+  # @param key [String|Symbol]
+  def preset=(key)
+    key = key.to_sym
+    super key
+    preset = PRESETS[key]
+    self.published = !!preset[:published]
+    if preset[:offset]
+      base_time = created_at || Time.current
+      publish_time = (base_time + preset[:offset]).change(hour: 11, min: 45)
+      self.scheduled_publish_time = publish_time
+    else
+      self.scheduled_publish_time = nil
+    end
+  end
 
   belongs_to :page
 
   validates :message, presence: true, length: { maximum: 63206 }
 
-  def pull
+  # @param result [nil|Hash]
+  def pull(result = nil)
     logger.debug 'Post#pull'
+    raise ArgumentError.new('this hash is not for the post') unless facebook_id == result['id']
+    result ||= graph.get_object(facebook_id, fields: self.class.fields)
+    self.message = result['message']
+    self.published = result['is_published']
+    self.scheduled_publish_time = Time.at(result['scheduled_publish_time']).to_datetime if result['scheduled_publish_time']
   end
 
   def push
@@ -23,6 +56,7 @@ class Post < ApplicationRecord
       graph.graph_call facebook_id, to_fb_hash, 'POST'
     else
       result = graph.graph_call "#{facebook_id}/feed", to_fb_hash, 'POST'
+      pp result
       self.facebook_id = result['id']
     end
   end
@@ -31,7 +65,9 @@ class Post < ApplicationRecord
 
   def to_fb_hash
     {
-        message: message
+        message: message,
+        published: published?,
+        scheduled_publish_time: scheduled_publish_time&.to_time&.to_i,
     }
   end
 

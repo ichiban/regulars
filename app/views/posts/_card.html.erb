@@ -1,6 +1,10 @@
 <div id="<%= dom_id(card) %>" class="mdl-cell mdl-card mdl-shadow--2dp">
   <div class="mdl-card__title">
-    <h4 class="mdl-card__title-text">0 customers saw</h4>
+    <h4 class="mdl-card__title-text">
+      <% if card.scheduled_publish_time %>
+          in <%= time_ago_in_words(card.scheduled_publish_time) %>
+      <% end %>
+    </h4>
   </div>
   <div class="mdl-card__supporting-text">
     <%=simple_format card.message %>

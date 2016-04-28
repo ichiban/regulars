@@ -7,8 +7,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
-  rescue_from Koala::Facebook::AuthenticationError, with: :logout
   rescue_from Koala::Facebook::ClientError, with: :snackbar
+  rescue_from Koala::Facebook::AuthenticationError, with: :logout
+
+  include Tabbable
 
   def authenticate!
     redirect_to new_user_path unless current_user
@@ -28,7 +30,8 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def logout
+  def logout(exception)
+    pp exception
     reset_session
     respond_to do |format|
       format.html { redirect_to new_user_path }
@@ -46,6 +49,7 @@ class ApplicationController < ActionController::Base
 
   # @param exception [Koala::Facebook::ClientError]
   def snackbar(exception)
+    pp exception
     respond_to do |format|
       format.js do
         render inline:(<<~JS)

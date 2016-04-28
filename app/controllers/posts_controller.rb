@@ -8,7 +8,19 @@ class PostsController < ApplicationController
     page.pull
     page.save
 
-    @posts = page.posts.order(created_at: :desc)
+    case params[:scope]&.to_sym || :published
+    when :published
+      self.current_tab = :published
+      @posts = page.posts.published.order(created_at: :desc)
+    when :scheduled
+      self.current_tab = :scheduled
+      @posts = page.posts.scheduled.order(created_at: :desc)
+    when :unpublished
+      self.current_tab = :unpublished
+      @posts = page.posts.unpublished.order(created_at: :desc)
+    else
+      head :not_found
+    end
   end
 
   def new
@@ -24,8 +36,9 @@ class PostsController < ApplicationController
 
   def create
     @post = page.posts.new(post_params)
-    if @post.save
+    if @post.valid?
       @post.push
+      @post.save!
     else
       render :new
     end

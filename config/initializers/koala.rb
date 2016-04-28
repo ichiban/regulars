@@ -1,8 +1,16 @@
-Koala::Facebook::OAuth.class_eval do
-  def initialize_with_default_settings(*args)
-    raise 'application id and/or secret are not specified in the environment' unless ENV['FB_APP_ID'] && ENV['FB_SECRET_KEY']
-    initialize_without_default_settings(ENV['FB_APP_ID'].to_s, ENV['FB_SECRET_KEY'].to_s, args.first)
-  end
+module Koala
+  module Facebook
+    module OAuthWithEnvVars
+      def initialize(*args)
+        raise 'application id and/or secret are not specified in the environment' unless ENV['FB_APP_ID'] && ENV['FB_SECRET_KEY']
+        super(ENV['FB_APP_ID'].to_s, ENV['FB_SECRET_KEY'].to_s, args.first)
+      end
+    end
 
-  alias_method_chain :initialize, :default_settings
+    class OAuth
+      prepend OAuthWithEnvVars
+    end
+  end
 end
+
+Koala::Utils.level = Logger::DEBUG

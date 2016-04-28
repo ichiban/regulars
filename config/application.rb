@@ -20,5 +20,8 @@ module Regulars
 
     # Disable `div#field_with_errors`
     config.action_view.field_error_proc = Proc.new { |html_tag, _| %Q(#{html_tag}).html_safe }
+
+    # This app is for JST
+    config.time_zone = 'Tokyo'
   end
 end

@@ -10,12 +10,12 @@
           <% end %>
         </div>
 
-        <% if dialog.new_record? %>
+        <% if dialog.preset %>
             <% Post::PRESETS.each_pair do |k, v| %>
                 <div>
                   <%= f.label :preset, class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect', for: "#{Post.name.underscore}_#{:preset}_#{k}" do %>
                       <%= f.radio_button :preset, k, class: 'mdl-radio__button' %>
-                      <span class="mdl-radio__label"><%= v %></span>
+                      <span class="mdl-radio__label"><%= v[:label] %></span>
                   <% end %>
                 </div>
             <% end %>

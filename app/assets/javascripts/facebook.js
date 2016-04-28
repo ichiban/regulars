@@ -17,7 +17,7 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
-    $(document).on('click', '[data-facebook-login]', function() {
+    $(document).on('click', '.regulars-facebook-login', function() {
         console.log('facebook login button clicked');
         FB.getLoginStatus(function(response) {
             console.log('check facebook login status');

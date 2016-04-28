@@ -11,3 +11,11 @@
             <i class="material-icons">add</i>
         <% end %>
 <% end %>
+
+<% content_for :tabs do %>
+    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+      <%= tab_for :published, page_posts_path(page, scope: :published), class: 'mdl-layout__tab' %>
+      <%= tab_for :scheduled, page_posts_path(page, scope: :scheduled), class: 'mdl-layout__tab' %>
+      <%= tab_for :unpublished, page_posts_path(page, scope: :unpublished), class: 'mdl-layout__tab' %>
+    </div>
+<% end %>
