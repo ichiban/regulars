@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428042354) do
+ActiveRecord::Schema.define(version: 20160428073838) do
 
   create_table "page_managements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|
     t.integer "user_id"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20160428042354) do
     t.boolean  "published"
     t.datetime "scheduled_publish_time"
     t.string   "preset"
+    t.integer  "reach"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

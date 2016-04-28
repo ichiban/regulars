@@ -13,4 +13,6 @@ module Koala
   end
 end
 
+Koala.config.api_version = 'v2.6'
+
 Koala::Utils.level = Logger::DEBUG

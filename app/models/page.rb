@@ -29,11 +29,16 @@ class Page < ApplicationRecord
   def page_posts
     results = []
     posts = graph.get_connection('me', 'promotable_posts')
-    posts.each_slice(50) do |slice|
-      results << graph.batch do |batch|
+    posts.each_slice(25) do |slice|
+      result = graph.batch do |batch|
         slice.each do |post|
           batch.get_object(post['id'], fields: Post.fields)
+          batch.get_connection(post['id'], 'insights/post_impressions_unique/lifetime')
         end
+      end
+      results << result.each_slice(2).map do |post, insights|
+        post['insights'] = insights
+        post
       end
     end
     results.flatten

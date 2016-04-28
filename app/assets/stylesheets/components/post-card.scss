@@ -1,0 +1,36 @@
+@import "material-design-lite/src/variables";
+
+.regulars-post-card {
+  color: $card-supporting-text-text-color;
+  min-height: 200px;
+
+  &__supporting-text {
+    flex-grow: 1;
+  }
+
+  &__actions {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+  }
+
+  &__action {
+    display: flex;
+    align-items: center;
+    margin-right: 6px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  &__action-icon {
+    font-size: $card-supporting-text-font-size;
+  }
+
+  &__action-label {
+    font-size: $card-supporting-text-font-size;
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+}

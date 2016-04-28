@@ -42,16 +42,16 @@ class Post < ApplicationRecord
 
   # @param result [nil|Hash]
   def pull(result = nil)
-    logger.debug 'Post#pull'
     raise ArgumentError.new('this hash is not for the post') unless facebook_id == result['id']
     result ||= graph.get_object(facebook_id, fields: self.class.fields)
+    result['insights'] ||= graph.get_connection(facebook_id, 'insights/post_impressions_unique/lifetime')
     self.message = result['message']
     self.published = result['is_published']
     self.scheduled_publish_time = Time.at(result['scheduled_publish_time']).to_datetime if result['scheduled_publish_time']
+    self.reach = result.dig('insights', 0, 'values', 0, 'value')
   end
 
   def push
-    logger.debug 'Post#push'
     if facebook_id
       graph.graph_call facebook_id, to_fb_hash, 'POST'
     else
@@ -69,10 +69,6 @@ class Post < ApplicationRecord
         published: published?,
         scheduled_publish_time: scheduled_publish_time&.to_time&.to_i,
     }
-  end
-
-  def insights
-
   end
 
   # @return [Koala::Facebook::API]
