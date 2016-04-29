@@ -61,6 +61,18 @@ class Post < ApplicationRecord
     end
   end
 
+  def scope
+    if published?
+      :published
+    else
+      if scheduled_publish_time
+        :scheduled
+      else
+        :unpublished
+      end
+    end
+  end
+
   private
 
   def to_fb_hash

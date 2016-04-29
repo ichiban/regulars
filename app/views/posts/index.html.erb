@@ -1,4 +1,4 @@
-<div class="<%= dom_class(Post) %> mdl-grid">
+<div class="<%= dom_class(Post) %> <%= "#{dom_class(Post)}--#{@scope}" %> mdl-grid">
   <%= render partial: 'card', collection: @posts %>
 </div>
 

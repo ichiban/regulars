@@ -1,4 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-proposal_for_yutaka:
+new_proposal_of_perm:
   message: Wanna get more perms? We recommend to come back in 2 months to keep your hair fluffy.
+
+proposal_for_yutaka_last_month:
+  message: Growing your hair after a Mad Max cosplay? Try out perm again!
+  published: true
+
+proposal_for_yutaka_this_month:
+  message: Men's perm is hip now. Why don't you arrange and make sides shorter?
+  published: false
+  scheduled_publish_time: <%= 1.month.ago.to_s(:db) %>
+
+stock_for_ad:
+  message: If you're looking for the best hair salon in Gakugeidaigaku, book our salon and get 20% off today!
+  published: false

@@ -8,7 +8,8 @@ class PostsController < ApplicationController
     page.pull
     page.save
 
-    case params[:scope]&.to_sym || :published
+    @scope = params[:scope]&.to_sym || :published
+    case @scope
     when :published
       self.current_tab = :published
       @posts = page.posts.published.order(created_at: :desc)

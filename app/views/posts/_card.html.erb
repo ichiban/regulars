@@ -13,10 +13,12 @@
           <span class="regulars-post-card__action-label"><%= time_ago_in_words(card.scheduled_publish_time) %></span>
         </div>
     <% end %>
-    <div class="regulars-post-card__action">
-      <i class="material-icons regulars-post-card__action-icon">visibility</i>
-      <span class="regulars-post-card__action-label"><%= number_with_delimiter(card.reach) %></span>
-    </div>
+    <% if card.reach %>
+        <div class="regulars-post-card__action">
+          <i class="material-icons regulars-post-card__action-icon">visibility</i>
+          <span class="regulars-post-card__action-label"><%= number_with_delimiter(card.reach) %></span>
+        </div>
+    <% end %>
   </div>
   <div class="mdl-card__menu">
     <button id="<%=j dom_id(card, :menu) %>" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
