@@ -1,6 +1,8 @@
 (function() {
     'use strict';
 
+    var $document = $(document);
+
     window.fbAsyncInit = function() {
         FB.init({
             appId      : '1075847942471273',
@@ -17,7 +19,30 @@
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
-    $(document).on('click', '.regulars-facebook-login', function() {
+    // Deal with the #fb-root problem with Turbolinks
+    // http://reed.github.io/turbolinks-compatibility/facebook.html
+    var $fbRoot;
+    var fbRootId = '#fb-root';
+
+    $document.on('turbolinks:request-start', function() {
+        var $root = $(fbRootId);
+        if ($root.length) {
+            $fbRoot = $root.detach();
+        }
+    });
+
+    $document.on('turbolinks:load', function() {
+        if (!$fbRoot) { return; }
+
+        var $root = $(fbRootId);
+        if ($root.length) {
+            $root.replaceWith($fbRoot);
+        } else {
+            $('body').append($fbRoot);
+        }
+    });
+
+    $document.on('click', '.regulars-facebook-login', function() {
         console.log('facebook login button clicked');
         FB.getLoginStatus(function(response) {
             console.log('check facebook login status');

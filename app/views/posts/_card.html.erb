@@ -8,13 +8,13 @@
   <div class="mdl-card__actions regulars-post-card__actions">
     <div class="mdl-layout-spacer"></div>
     <% if card.scheduled_publish_time %>
-        <div class="regulars-post-card__action">
+        <div id="<%= dom_id(card, :schedule) %>" class="regulars-post-card__action">
           <i class="material-icons regulars-post-card__action-icon">schedule</i>
           <span class="regulars-post-card__action-label"><%= time_ago_in_words(card.scheduled_publish_time) %></span>
         </div>
     <% end %>
     <% if card.reach %>
-        <div class="regulars-post-card__action">
+        <div id="<%= dom_id(card, :reach) %>" class="regulars-post-card__action">
           <i class="material-icons regulars-post-card__action-icon">visibility</i>
           <span class="regulars-post-card__action-label"><%= number_with_delimiter(card.reach) %></span>
         </div>
@@ -34,3 +34,15 @@
     </ul>
   </div>
 </div>
+
+<% if card.scheduled_publish_time %>
+    <div class="mdl-tooltip" for="<%= dom_id(card, :schedule) %>">
+      This post will show up on your page in <%= time_ago_in_words(card.scheduled_publish_time) %>
+    </div>
+<% end %>
+
+<% if card.reach %>
+    <div class="mdl-tooltip" for="<%= dom_id(card, :reach) %>">
+      This post has been viewed by <%= pluralize(card.reach, 'customer') %>
+    </div>
+<% end %>
