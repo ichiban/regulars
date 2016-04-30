@@ -7,7 +7,12 @@
 <% content_for :floating_action_button do %>
         <%= link_to new_page_post_path(page),
                     data: { remote: true },
-                    class: 'regulars-floating-action-button mdl-js-button mdl-js-ripple-effect' do %>
+                    class: ['mdl-button',
+                            'mdl-js-button',
+                            'mdl-button--fab',
+                            'mdl-button--colored',
+                            'mdl-js-ripple-effect',
+                            'regulars-button--bottom-right'].join(' ') do %>
             <i class="material-icons">add</i>
         <% end %>
 <% end %>

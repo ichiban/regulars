@@ -1,5 +1,12 @@
-<dialog class="mdl-dialog">
-  <%= form_for [dialog.page, dialog], data: { remote: true } do |f| %>
+<dialog class="mdl-dialog regulars-post-dialog">
+  <%= form_for [dialog.page, dialog], data: { remote_form_data: true } do |f| %>
+      <div class="mdl-dialog__title regulars-post-dialog__title regulars-post-dialog__title--photo regulars-js-uploader"
+           style="background-image: url(<%= dialog.full_picture %>)"
+           data-access-token="<%= dialog.page.access_token %>"
+           data-photos-url="<%= dialog.page.photos_url %>" >
+        <%= f.file_field :photo, class: 'regulars-js-uploader-file', style: 'display: none' %>
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect regulars-button--bottom-right-edge regulars-js-uploader-button"><i class="material-icons">add_a_photo</i></button>
+      </div>
       <div class="mdl-dialog__content">
         <% error = dialog.errors.full_messages_for(:message).first %>
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width mdl-textfield--floating-label <%= 'is-invalid' if error %>">

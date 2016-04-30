@@ -1,5 +1,5 @@
 <div id="<%= dom_id(card) %>" class="mdl-cell mdl-card mdl-shadow--2dp regulars-post-card">
-  <div class="mdl-card__title">
+  <div class="mdl-card__title regulars-post-card__title <%= 'regulars-post-card__title--picture' if card.full_picture %>" style="background-image: url(<%= card.full_picture %>)">
 
   </div>
   <div class="mdl-card__supporting-text regulars-post-card__supporting-text">

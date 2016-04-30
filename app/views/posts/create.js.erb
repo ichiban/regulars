@@ -1,6 +1,2 @@
-(function() {
-  'use strict';
-
-  $('.<%=j "#{dom_class(Post)}--#{@post.scope}" %>').prepend('<%=j render partial: 'card', object: @post %>');
-  $('.mdl-js-snackbar').get()[0].MaterialSnackbar.showSnackbar({message: 'Sent to FB!'});
-})();
+$('.<%=j "#{dom_class(Post)}--#{@post.scope}" %>').prepend('<%=j render partial: 'card', object: @post %>');
+$('.mdl-js-snackbar').get()[0].MaterialSnackbar.showSnackbar({message: 'Sent to FB!'});

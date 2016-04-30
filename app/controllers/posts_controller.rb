@@ -39,6 +39,7 @@ class PostsController < ApplicationController
     @post = page.posts.new(post_params)
     if @post.valid?
       @post.push
+      @post.pull
       @post.save!
     else
       render :new
@@ -68,6 +69,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:message, :preset)
+    params.require(:post).permit(:message, :preset, :photo)
   end
 end

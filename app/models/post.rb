@@ -5,7 +5,7 @@ class Post < ApplicationRecord
 
   class << self
     def fields
-      @fields ||= %w(message is_published scheduled_publish_time).join(',')
+      @fields ||= %w(message is_published scheduled_publish_time full_picture insights).join(',')
     end
   end
 
@@ -36,28 +36,43 @@ class Post < ApplicationRecord
     end
   end
 
+  attr :photo, true
+
   belongs_to :page
 
-  validates :message, presence: true, length: { maximum: 63206 }
+  validates :message, length: { maximum: 63206 }
 
   # @param result [nil|Hash]
   def pull(result = nil)
-    raise ArgumentError.new('this hash is not for the post') unless facebook_id == result['id']
+    raise ArgumentError.new('this hash is not for the post') if result && facebook_id != result['id']
     result ||= graph.get_object(facebook_id, fields: self.class.fields)
-    result['insights'] ||= graph.get_connection(facebook_id, 'insights/post_impressions_unique/lifetime')
     self.message = result['message']
     self.published = result['is_published']
     self.scheduled_publish_time = Time.at(result['scheduled_publish_time']).to_datetime if result['scheduled_publish_time']
-    self.reach = result.dig('insights', 0, 'values', 0, 'value')
+    self.full_picture = result['full_picture']
+    self.reach = result
+                     .dig('insights', 'data')
+                     .select {|d| 'post_impressions_unique' == d['name'] }
+                     .dig(0, 'values', 0, 'value')
   end
 
   def push
     if facebook_id
       graph.graph_call facebook_id, to_fb_hash, 'POST'
     else
-      result = graph.graph_call "#{facebook_id}/feed", to_fb_hash, 'POST'
-      pp result
-      self.facebook_id = result['id']
+      if photo
+        result = graph.graph_call "#{page.facebook_id}/photos", to_fb_hash, 'POST'
+        if result['post_id']
+          self.facebook_id = result['post_id']
+        else
+          # if the photo is unpublished, it won't return post_id.
+          # http://stackoverflow.com/questions/35018755/how-to-create-and-edit-unpublished-facebook-post-with-image
+          self.facebook_id = "#{page.facebook_id}_#{result['id']}"
+        end
+      else
+        result = graph.graph_call "#{page.facebook_id}/feed", to_fb_hash, 'POST'
+        self.facebook_id = result['id']
+      end
     end
   end
 
@@ -80,6 +95,7 @@ class Post < ApplicationRecord
         message: message,
         published: published?,
         scheduled_publish_time: scheduled_publish_time&.to_time&.to_i,
+        source: photo && Koala::UploadableIO.new(photo),
     }
   end
 

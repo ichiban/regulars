@@ -1,5 +1,2 @@
-(function() {
-  'use strict';
-
-  $('#<%=j dom_id(@post) %>').replaceWith('<%=j render partial: 'card', object: @post %>');
-})();
+$('#<%=j dom_id(@post) %>').replaceWith('<%=j render partial: 'card', object: @post %>');
+$('.mdl-js-snackbar').get()[0].MaterialSnackbar.showSnackbar({message: 'Updated!'});

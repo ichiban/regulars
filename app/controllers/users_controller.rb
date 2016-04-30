@@ -18,6 +18,7 @@ class UsersController < ApplicationController
     if @user.save
       self.current_user = @user
     else
+      logger.info @user.errors.full_messages
       head :unprocessable_entity
     end
   end

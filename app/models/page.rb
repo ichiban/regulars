@@ -24,23 +24,13 @@ class Page < ApplicationRecord
     Koala::Facebook::API.new(access_token)
   end
 
+  def photos_url
+    "https://#{Koala.config.graph_server}/#{Koala.config.api_version}/#{facebook_id}/photos"
+  end
+
   private
 
   def page_posts
-    results = []
-    posts = graph.get_connection('me', 'promotable_posts')
-    posts.each_slice(25) do |slice|
-      result = graph.batch do |batch|
-        slice.each do |post|
-          batch.get_object(post['id'], fields: Post.fields)
-          batch.get_connection(post['id'], 'insights/post_impressions_unique/lifetime')
-        end
-      end
-      results << result.each_slice(2).map do |post, insights|
-        post['insights'] = insights
-        post
-      end
-    end
-    results.flatten
+    graph.get_connection('me', 'promotable_posts', fields: Post.fields)
   end
 end
