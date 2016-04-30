@@ -17,7 +17,12 @@
           <span class="mdl-layout__title"><%= content_for :title %></span>
         </span>
       </div>
-      <%= content_for :tabs %>
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+        <%= tab_for :dashboard, page_path(page), class: 'mdl-layout__tab' %>
+        <%= tab_for :published, page_posts_path(page, scope: :published), class: 'mdl-layout__tab' %>
+        <%= tab_for :scheduled, page_posts_path(page, scope: :scheduled), class: 'mdl-layout__tab' %>
+        <%= tab_for :unpublished, page_posts_path(page, scope: :unpublished), class: 'mdl-layout__tab' %>
+      </div>
     </header>
     <div class="mdl-layout__drawer">
       <span class="mdl-layout-title">Regulars</span>

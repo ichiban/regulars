@@ -11,6 +11,7 @@
  * It is generally better to create a new file per style scope.
  *
  *= require dialog-polyfill
+ *= require chartist
  *= require_self
  */
 
@@ -60,3 +61,4 @@
 @import "components/login";
 @import "components/post-card";
 @import "components/post-dialog";
+@import "components/chart";

@@ -29,6 +29,11 @@ class Page < ApplicationRecord
     "https://#{Koala.config.graph_server}/#{Koala.config.api_version}/#{facebook_id}/photos"
   end
 
+  def chart
+    window = 3.month.ago..Time.current
+
+  end
+
   private
 
   def page_posts

@@ -50,6 +50,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 source 'https://rails-assets.org' do
   gem 'rails-assets-material-design-lite'
   gem 'rails-assets-dialog-polyfill'
+  gem 'rails-assets-chartist'
 end
 
 gem 'dotenv-rails', groups: [:development, :test]

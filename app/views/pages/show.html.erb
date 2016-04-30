@@ -1,0 +1,41 @@
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--2dp">
+    <%= content_tag :div,
+                    class: 'mdl-card__supporting-text ct-chart regulars-chart',
+                    data: {
+                        labels: [1, 2, 3, 4, 5, 6, 7, 8],
+                        series: [
+                            [1, 2, 3, 1, 2, 0, 1, 0],
+                            [3, 2, 1, 1, 1, 1, 1, 3]
+                        ],
+                        options: {
+                            showArea: true,
+                            showLine: false,
+                            showPoint: false,
+                            fullWidth: true,
+                            axisY: {
+                                position: 'end'
+                            }
+                        }
+                    } do %>
+    <% end %>
+  </div>
+  <div class="mdl-cell mdl-cell--6-col mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title">
+      <h4 class="mdl-card__title-text">Just finished?</h4>
+    </div>
+    <div class="mdl-card__supporting-text">
+      Just finished a haircut? Make a proposal for the next time!
+      We'll show it to the customer at the perfect time.
+    </div>
+    <div class="mdl-card__actions">
+      <%= link_to new_page_post_path(@page),
+                  data: { remote: true },
+                  class: 'mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect' do %>
+          Propose
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%= content_for :title, @page.name %>

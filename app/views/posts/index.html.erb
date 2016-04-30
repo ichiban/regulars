@@ -7,20 +7,7 @@
 <% content_for :floating_action_button do %>
         <%= link_to new_page_post_path(page),
                     data: { remote: true },
-                    class: ['mdl-button',
-                            'mdl-js-button',
-                            'mdl-button--fab',
-                            'mdl-button--colored',
-                            'mdl-js-ripple-effect',
-                            'regulars-button--bottom-right'].join(' ') do %>
+                    class: 'mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect regulars-button--bottom-right' do %>
             <i class="material-icons">add</i>
         <% end %>
-<% end %>
-
-<% content_for :tabs do %>
-    <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-      <%= tab_for :published, page_posts_path(page, scope: :published), class: 'mdl-layout__tab' %>
-      <%= tab_for :scheduled, page_posts_path(page, scope: :scheduled), class: 'mdl-layout__tab' %>
-      <%= tab_for :unpublished, page_posts_path(page, scope: :unpublished), class: 'mdl-layout__tab' %>
-    </div>
 <% end %>

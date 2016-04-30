@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require material-design-lite/material
 //= require dialog-polyfill
+//= require chartist
 //= require_tree .
