@@ -1,5 +1,17 @@
+@import "material-design-lite/src/variables";
+
 .regulars-chart {
   padding: 0;
   height: 200px;
   width: 100%;
+
+  & .ct-series-a .ct-area {
+    fill: unquote("rgb(#{$color-accent})");
+    fill-opacity: .4;
+  }
+
+  & .ct-series-b .ct-area {
+    fill: unquote("rgb(#{$color-primary})");
+    fill-opacity: .8;
+  }
 }

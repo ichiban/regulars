@@ -10,9 +10,10 @@ class Post < ApplicationRecord
   end
 
   PRESETS = {
-      short: { label: 'Proposal: Short', published: false, offset: 1.month },
-      middle: { label: 'Proposal: Medium Length', published: false, offset: 2.months },
-      long: { label: 'Proposal: Long', published: false, offset: 3.months },
+      very_short: { label: 'Proposal: Very Short', published: false, offset: 1.month },
+      short: { label: 'Proposal: Short', published: false, offset: 2.month },
+      middle: { label: 'Proposal: Medium Length', published: false, offset: 3.months },
+      long: { label: 'Proposal: Long', published: false, offset: 4.months },
       follow_up: { label: 'Follow Up', published: true },
       stock: { label: 'Stock for ads', published: false },
   }

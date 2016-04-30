@@ -30,8 +30,24 @@ class Page < ApplicationRecord
   end
 
   def chart
-    window = 3.month.ago..Time.current
-
+    @chart ||= begin
+      window = 14.days.ago..14.days.from_now
+      dates = window.begin.to_date..window.end.to_date
+      projected = posts
+                      .where(scheduled_publish_time: window)
+                      .group('DATE(scheduled_publish_time)')
+                      .count(:scheduled_publish_time)
+      actual = posts
+                   .where(created_at: window)
+                   .group('DATE(created_at)')
+                   .count(:created_at)
+      projected_series = dates.map {|d| projected[d] || 0 }
+      actual_series = dates.map {|d| actual[d] || 0 }
+      {
+          labels: dates.map {|d| d.monday? ? I18n.l(d, format: :short) : nil }.to_a,
+          series: [projected_series, actual_series]
+      }
+    end
   end
 
   private

@@ -28,7 +28,7 @@
       <span class="mdl-layout-title">Regulars</span>
       <nav class="mdl-navigation">
         <% current_user.pages.each do |page| %>
-        <%= link_to page.name, page_posts_path(page), class: 'mdl-navigation__link' %>
+        <%= link_to page.name, page_path(page), class: 'mdl-navigation__link' %>
         <% end %>
         <hr />
         <%= link_to 'Logout', user_path(current_user), class: 'mdl-navigation__link', data: { remote: true, method: :delete } %>
