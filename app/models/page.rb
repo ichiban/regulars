@@ -7,13 +7,14 @@ class Page < ApplicationRecord
 
   def pull
     # cache existing posts in one SQL query
-    fb_ids = page_posts.map {|p| p['id'] }
+    posts = page_posts
+    fb_ids = posts.map {|p| p['id'] }
     existing_posts = {}
     Post.where(facebook_id: fb_ids).each do |p|
       existing_posts[p.facebook_id] = p
     end
 
-    self.posts = page_posts.map do |page_post|
+    self.posts = posts.map do |page_post|
       post = existing_posts[page_post['id']] || self.posts.new(facebook_id: page_post['id'])
       post.pull page_post
       post
