@@ -1,11 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  facebook_id: MyString
-  name: MyString
-  access_token: MyString
-
-two:
-  facebook_id: MyString
-  name: MyString
-  access_token: MyString
+hair_salon_yutaka:
+  facebook_id: 1162071920479384
+  name: Hair Salon Yutaka

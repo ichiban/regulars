@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:edit, :update, :destroy]
+  before_action :authorize!
 
   helper_method :page
 
@@ -29,9 +30,6 @@ class PostsController < ApplicationController
     @post.preset = :short
   end
 
-  def show
-  end
-
   def edit
   end
 
@@ -47,18 +45,26 @@ class PostsController < ApplicationController
   end
 
   def update
-    if @post.update(post_params)
+    @post.update_attributes post_params
+    if @post.valid?
       @post.push
+      @post.pull
+      @post.save!
     else
       render :edit
     end
   end
 
   def destroy
+    @post.delete_on_fb
     @post.destroy
   end
 
   private
+
+  def authorize!
+    head :unauthorized unless current_user.pages.include? page
+  end
 
   def page
     @page ||= Page.find(params[:page_id]) if params[:page_id]

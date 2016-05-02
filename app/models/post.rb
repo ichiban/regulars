@@ -77,6 +77,10 @@ class Post < ApplicationRecord
     end
   end
 
+  def delete_on_fb
+    graph.delete_object facebook_id
+  end
+
   def scope
     if published?
       :published

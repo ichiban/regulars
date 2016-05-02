@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  facebook_id: MyString
-  name: MyString
-  email: MyString
-  access_token: MyString
+yutaka:
+  facebook_id: 1727394695
+  access_token: yutakas_access_token
+  name: Yutaka Ichibangase
+  email: yichiban@gmail.com
 
-two:
-  facebook_id: MyString
-  name: MyString
-  email: MyString
-  access_token: MyString
+terry:
+  facebook_id: xxxxxxxxxx
+  access_token: terrys_access_token
+  name: Terry
+  email: terry@example.com

@@ -58,3 +58,5 @@ gem 'koala'
 gem 'paperclip', '~> 5.0.0.beta1'
 gem 'state_machines'
 gem 'state_machines-activerecord'
+gem 'webmock', groups: [:test]
+gem 'minitest-stub_any_instance', groups: [:test]

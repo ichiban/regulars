@@ -1,27 +1,18 @@
 @import "material-design-lite/src/color-definitions";
 @import "../mixins/centerer";
 
-.login {
-  &__contents {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
+.regulars-login {
+  &__grid {
+    height: 100vh;
+    padding: 0;
   }
 
-  &__title {
-
+  &__card {
+    @include centerer(true, true);
+    width: 260px;
   }
 
-  &__description {
-    flex-grow: 1;
-  }
-
-  &__actions {
-    position: relative;
-  }
-
-  &__action {
+  &__button {
     @include centerer(true, false);
     padding-left: auto;
     color: unquote("rgb(#{$color-white})");

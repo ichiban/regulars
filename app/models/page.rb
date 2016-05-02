@@ -39,6 +39,7 @@ class Page < ApplicationRecord
                       .count(:scheduled_publish_time)
       actual = posts
                    .where(created_at: window)
+                   .where.not(preset: nil)
                    .group('DATE(created_at)')
                    .count(:created_at)
       projected_series = dates.map {|d| projected[d] || 0 }

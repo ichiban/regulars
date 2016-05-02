@@ -30,18 +30,17 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def logout(exception)
-    pp exception
+  # @param reason [Koala::Facebook::AuthenticationError|String]
+  def logout(reason)
+    reason = reason.fb_error_message if reason.is_a?(Koala::Facebook::AuthenticationError)
     reset_session
     respond_to do |format|
-      format.html { redirect_to new_user_path }
+      format.html { redirect_to new_user_path, alert: reason }
       format.js do
         render inline:(<<~JS)
-          (function() {
-            'use strict';
-
-            Turbolinks.visit('#{new_user_path}');
-          })();
+          Turbolinks.visit('#{new_user_path}');
+          var notification = document.querySelector('.mdl-js-snackbar');
+          notification.MaterialSnackbar.showSnackbar({message: '#{reason}'});
         JS
       end
     end
@@ -53,12 +52,8 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.js do
         render inline:(<<~JS)
-          (function() {
-            'use strict';
-
-            var notification = document.querySelector('.mdl-js-snackbar');
-            notification.MaterialSnackbar.showSnackbar({message: '#{exception.fb_error_message}'});
-          })();
+          var notification = document.querySelector('.mdl-js-snackbar');
+          notification.MaterialSnackbar.showSnackbar({message: '#{exception.fb_error_message}'});
         JS
       end
     end

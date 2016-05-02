@@ -1,9 +1,5 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  user_id: 1
-  page_id: 1
-
-two:
-  user_id: 1
-  page_id: 1
+yutaka_to_hair_salon_yutaka:
+  user: :yutaka
+  page: :hair_salon_yutaka

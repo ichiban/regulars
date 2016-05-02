@@ -42,38 +42,26 @@
         }
     });
 
-    $document.on('click', '.regulars-facebook-login', function() {
+    $document.on('click', '.regulars-login__button', function() {
         console.log('facebook login button clicked');
-        FB.getLoginStatus(function(response) {
-            console.log('check facebook login status');
-            // Check the status first.
+        FB.login(function(response) {
+            console.log('facebook login');
             if ('connected' === response.status) {
                 console.log('facebook logged in');
-                // If it's already logged in, proceed to the app.
                 login(response);
+            } else if ('not_authorized' === response.status) {
+                notify('Please log into this app.');
             } else {
-                console.log('facebook not logged in');
-                // If not, try to login on FB first.
-                FB.login(function(response) {
-                    console.log('facebook login');
-                    if ('connected' === response.status) {
-                        console.log('facebook logged in');
-                        login(response);
-                    } else if ('not_authorized' === response.status) {
-                        notify('Please log into this app.');
-                    } else {
-                        notify('Please log into Facebook.');
-                    }
-                }, {
-                    scope: [
-                        'public_profile',
-                        'email',
-                        'read_insights',
-                        'manage_pages',
-                        'publish_pages'
-                    ].join(',')
-                });
+                notify('Please log into Facebook.');
             }
+        }, {
+            scope: [
+                'public_profile',
+                'email',
+                'read_insights',
+                'manage_pages',
+                'publish_pages'
+            ].join(',')
         });
     });
 

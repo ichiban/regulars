@@ -9,31 +9,33 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>
-  <body>
+  <body data-alert="<%= flash[:alert] %>">
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
-    <header class="mdl-layout__header mdl-layout__header--waterfall mdl-shadow--2dp">
-      <div class="mdl-layout__header-row">
-        <span class="mdl-layout__title">
-          <span class="mdl-layout__title"><%= content_for :title %></span>
-        </span>
-      </div>
-      <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
-        <%= tab_for :dashboard, page_path(page), class: 'mdl-layout__tab' %>
-        <%= tab_for :published, page_posts_path(page, scope: :published), class: 'mdl-layout__tab' %>
-        <%= tab_for :scheduled, page_posts_path(page, scope: :scheduled), class: 'mdl-layout__tab' %>
-        <%= tab_for :unpublished, page_posts_path(page, scope: :unpublished), class: 'mdl-layout__tab' %>
-      </div>
-    </header>
-    <div class="mdl-layout__drawer">
-      <span class="mdl-layout-title">Regulars</span>
-      <nav class="mdl-navigation">
-        <% current_user.pages.each do |page| %>
-        <%= link_to page.name, page_path(page), class: 'mdl-navigation__link' %>
-        <% end %>
-        <hr />
-        <%= link_to 'Logout', user_path(current_user), class: 'mdl-navigation__link', data: { remote: true, method: :delete } %>
-      </nav>
-    </div>
+    <% if respond_to?(:page) %>
+        <header class="mdl-layout__header mdl-layout__header--waterfall mdl-shadow--2dp">
+          <div class="mdl-layout__header-row">
+            <span class="mdl-layout__title">
+              <span class="mdl-layout__title"><%= content_for :title %></span>
+            </span>
+          </div>
+          <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+            <%= tab_for :dashboard, page_path(page), class: 'mdl-layout__tab' %>
+            <%= tab_for :published, page_posts_path(page, scope: :published), class: 'mdl-layout__tab' %>
+            <%= tab_for :scheduled, page_posts_path(page, scope: :scheduled), class: 'mdl-layout__tab' %>
+            <%= tab_for :unpublished, page_posts_path(page, scope: :unpublished), class: 'mdl-layout__tab' %>
+          </div>
+        </header>
+        <div class="mdl-layout__drawer">
+          <span class="mdl-layout-title">Regulars</span>
+          <nav class="mdl-navigation">
+            <% current_user.pages.each do |page| %>
+                <%= link_to page.name, page_path(page), class: 'mdl-navigation__link' %>
+            <% end %>
+            <hr />
+            <%= link_to 'Logout', user_path(current_user), class: 'mdl-navigation__link', data: { remote: true, method: :delete } %>
+          </nav>
+        </div>
+    <% end %>
     <main class="mdl-layout__content">
       <%= yield %>
     </main>

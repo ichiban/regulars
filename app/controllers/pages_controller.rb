@@ -4,10 +4,15 @@ class PagesController < ApplicationController
   helper_method :page
 
   def new
+    logout 'You need at least 1 facebook page'
   end
 
   def show
-    self.current_tab = :dashboard
+    if current_user.pages.include? @page
+      self.current_tab = :dashboard
+    else
+      head :unauthorized
+    end
   end
 
   private

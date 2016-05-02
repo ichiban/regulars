@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate!, only: [:new, :create]
-  layout 'full', only: :new
+  before_action :set_user, only: [:destroy]
 
   def new
     return unless current_user
     if current_user.pages.present?
-      redirect_to page_posts_path(current_user.pages[0])
+      redirect_to page_path(current_user.pages[0])
     else
       redirect_to new_page_path
     end
@@ -17,6 +17,7 @@ class UsersController < ApplicationController
     @user.pull
     if @user.save
       self.current_user = @user
+      logout 'At least 1 facebook page or permission required' if @user.pages.empty?
     else
       logger.info @user.errors.full_messages
       head :unprocessable_entity
@@ -24,10 +25,18 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    reset_session
+    if current_user == @user
+      reset_session
+    else
+      head :unauthorized
+    end
   end
 
   private
+
+  def set_user
+    @user = User.find(params[:id])
+  end
 
   def user_params
     params.require(:user).permit(:facebook_id, :access_token)
