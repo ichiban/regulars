@@ -10,7 +10,7 @@
     <%= javascript_include_tag 'application' %>
   </head>
   <body data-alert="<%= flash[:alert] %>">
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer">
+  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header <%= 'mdl-layout--fixed-drawer' if respond_to?(:page) %>">
     <% if respond_to?(:page) %>
         <header class="mdl-layout__header mdl-layout__header--waterfall mdl-shadow--2dp">
           <div class="mdl-layout__header-row">

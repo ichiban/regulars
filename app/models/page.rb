@@ -31,21 +31,28 @@ class Page < ApplicationRecord
 
   def chart
     @chart ||= begin
-      window = 14.days.ago..14.days.from_now
-      dates = window.begin.to_date..window.end.to_date
+      window = 1.month.ago..5.months.from_now
+      weeks = window.begin.strftime('%U').to_i..window.end.strftime('%U').to_i
       projected = posts
                       .where(scheduled_publish_time: window)
-                      .group('DATE(scheduled_publish_time)')
+                      .group('WEEK(scheduled_publish_time)')
                       .count(:scheduled_publish_time)
       actual = posts
                    .where(created_at: window)
                    .where.not(preset: nil)
-                   .group('DATE(created_at)')
+                   .group('WEEK(created_at)')
                    .count(:created_at)
-      projected_series = dates.map {|d| projected[d] || 0 }
-      actual_series = dates.map {|d| actual[d] || 0 }
+      projected_series = weeks.map {|d| projected[d] || 0 }
+      actual_series = weeks.map {|d| actual[d] || 0 }
       {
-          labels: dates.map {|d| d.monday? ? I18n.l(d, format: :short) : nil }.to_a,
+          labels: weeks.map do |w|
+            if 0 == w % 4
+              week = w.weeks.since(Time.current.beginning_of_year)
+              I18n.l(week.beginning_of_week.to_date, format: :short)
+            else
+              nil
+            end
+          end.to_a,
           series: [projected_series, actual_series]
       }
     end

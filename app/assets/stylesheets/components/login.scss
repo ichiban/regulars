@@ -2,13 +2,22 @@
 @import "../mixins/centerer";
 
 .regulars-login {
-  &__grid {
-    height: 100vh;
+  &__background {
+    background-image: image-url("login_bg.jpeg");
+    -webkit-filter: blur(5px);
+    fliter: blur(5px);
+    height: 95vh;
+    width: 100%;
     padding: 0;
+  }
+
+  &__grid {
   }
 
   &__card {
     @include centerer(true, true);
+    -webkit-filter: none;
+    fliter: none;
     width: 260px;
   }
 
